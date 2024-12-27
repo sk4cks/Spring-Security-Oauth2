@@ -22,8 +22,5 @@ spring:
             userNameAttribute: preferred_username
 
 
-
-
-
 server:
   port: 8081
