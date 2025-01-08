@@ -1,6 +1,10 @@
 package spring_security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -10,6 +14,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,5 +67,28 @@ public class IndexController {
         OAuth2User oAuth2User = oidcUserService.loadUser(oidcUserRequest);
 
         return oAuth2User;
+    }
+
+    @GetMapping("/userPrincipal")
+    public OAuth2User userPrincipal(Authentication authentication) {
+        OAuth2AuthenticationToken authenticationToken1 = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticationToken authenticationToken2 = (OAuth2AuthenticationToken) authentication;
+        OAuth2User oAuth2User = (OAuth2User) authenticationToken2.getPrincipal();
+
+        return oAuth2User;
+    }
+
+    @GetMapping("/oauth2UserPrincipal")
+    public OAuth2User oAuth2User(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        System.out.println("oAuth2User = " + oAuth2User);
+
+        return oAuth2User;
+    }
+
+    @GetMapping("/oidcUserPrincipal")
+    public OidcUser oidcUser(@AuthenticationPrincipal OidcUser oidcUser) {
+        System.out.println("oidcUser = " + oidcUser);
+
+        return oidcUser;
     }
 }
