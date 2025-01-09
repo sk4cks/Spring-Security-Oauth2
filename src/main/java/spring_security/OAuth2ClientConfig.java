@@ -22,16 +22,24 @@ public class OAuth2ClientConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/loginPage").permitAll()
+                .requestMatchers("login").permitAll()
                 .anyRequest().authenticated());
 
-        http.oauth2Login(Customizer.withDefaults());
+        http.oauth2Login(oauth2 -> oauth2.loginPage("/login")
+//                .loginProcessingUrl("/login/v1/oauth2/code/*")
+                .authorizationEndpoint(authorizationEndpointConfig ->
+                        authorizationEndpointConfig.baseUri("/oauth2/v1/authorization"))
+                .redirectionEndpoint(redirectionEndpointConfig ->
+                        redirectionEndpointConfig.baseUri("/login/v1/oauth2/code/*"))
+                .defaultSuccessUrl("/loginPage"));
 
         http.logout(logout -> logout
-                        .logoutSuccessHandler(oidcLogoutSuccessHandler())
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID"));
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                .logoutSuccessHandler(oidcLogoutSuccessHandler())
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID"));
         return http.build();
     }
 
