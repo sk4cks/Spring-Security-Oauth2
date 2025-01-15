@@ -4,14 +4,32 @@ spring:
     oauth2:
       client:
         registration:
-          keycloak:
+          keycloak1:
             clientId: oauth2-client-app
             clientSecret: 3HaCXNApuA7VuXEWX7zPRnwOWWbaJKsV
             clientName: oauth2-client-app
-            redirectUri: http://localhost:8081/login/v1/oauth2/code/keycloak
+            redirectUri: http://localhost:8081/login/oauth2/code/keycloak
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email
+            provider: keycloak
+          keycloakWithPKCE:
+            clientId: oauth2-client-app2
+            clientSecret: HGQaideTscFV1JEJQQwqX9nyheeSnHrI
+            clientName: oauth2-client-app2
+            redirectUri: http://localhost:8081/login/oauth2/code/keycloak
+            authorizationGrantType: authorization_code
+            clientAuthenticationMethod: client_secret_basic
+            scope: openid,profile,email
+            provider: keycloak
+          keycloak2:
+            clientId: oauth2-client-app3
+            clientName: oauth2-client-app3
+            redirectUri: http://localhost:8081/home
+            authorizationGrantType: implicit
+            clientAuthenticationMethod: none
+            scope: openid,profile,email
+            provider: keycloak
         provider:
           keycloak:
             authorizationUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/auth
