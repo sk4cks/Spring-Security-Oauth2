@@ -1,4 +1,4 @@
-package spring_security;
+package spring_security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,14 +17,16 @@ import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
-@RestController
+@Controller
 public class IndexController {
 
     @Autowired
@@ -36,6 +38,7 @@ public class IndexController {
     }
 
     @GetMapping("/user")
+    @ResponseBody
     public OAuth2User user(String accessToken) {
         ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("keycloak");
         OAuth2AccessToken oAuth2AccessToken =
@@ -49,6 +52,7 @@ public class IndexController {
     }
 
     @GetMapping("/oidc")
+    @ResponseBody
     public OAuth2User oidc(String accessToken, String idToken) {
         ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("keycloak");
         OAuth2AccessToken oAuth2AccessToken =
@@ -70,6 +74,7 @@ public class IndexController {
     }
 
     @GetMapping("/userPrincipal")
+    @ResponseBody
     public OAuth2User userPrincipal(Authentication authentication) {
         OAuth2AuthenticationToken authenticationToken1 = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         OAuth2AuthenticationToken authenticationToken2 = (OAuth2AuthenticationToken) authentication;
@@ -79,6 +84,7 @@ public class IndexController {
     }
 
     @GetMapping("/oauth2UserPrincipal")
+    @ResponseBody
     public OAuth2User oAuth2User(@AuthenticationPrincipal OAuth2User oAuth2User) {
         System.out.println("oAuth2User = " + oAuth2User);
 
@@ -86,6 +92,7 @@ public class IndexController {
     }
 
     @GetMapping("/oidcUserPrincipal")
+    @ResponseBody
     public OidcUser oidcUser(@AuthenticationPrincipal OidcUser oidcUser) {
         System.out.println("oidcUser = " + oidcUser);
 

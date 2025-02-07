@@ -1,4 +1,4 @@
-package spring_security;
+package spring_security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequest
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import spring_security.CustomOAuth2AuthorizationRequestResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +24,7 @@ public class OAuth2ClientConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/home","/client","/error").permitAll()
+                .requestMatchers("/", "/oauth2Login", "/client","/logout").permitAll()
                 .anyRequest().authenticated());
 
 //        http.oauth2Login(authLogin ->
@@ -31,8 +32,6 @@ public class OAuth2ClientConfig {
 //                        authEndPoint.authorizationRequestResolver(customOAuth2AuthenticationRequestResolver())));
         http.oauth2Client(Customizer.withDefaults());
 
-        http.logout(logout -> logout
-                .logoutSuccessUrl("/home"));
         return http.build();
     }
 

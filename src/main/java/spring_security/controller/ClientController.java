@@ -1,4 +1,4 @@
-package spring_security;
+package spring_security.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
