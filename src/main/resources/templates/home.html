@@ -9,6 +9,7 @@
 </head>
 <body>
 <div>Welcome <p><span th:text = "${oAuth2AuthenticationToken}"/></p></div>
+<div><p>Access Token:  <span th:text = "${authorizedClient}"/></p></div>
 
 <div>
   <a href="/logout">Logout</a>
