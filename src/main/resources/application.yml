@@ -9,9 +9,9 @@ spring:
             clientSecret: 3HaCXNApuA7VuXEWX7zPRnwOWWbaJKsV
             clientName: oauth2-client-app
             redirectUri: http://localhost:8081/client
-            authorizationGrantType: client_credentials
+            authorizationGrantType: password
             clientAuthenticationMethod: client_secret_basic
-#            scope: openid,profile,email
+            scope: openid,profile,email
             provider: keycloak
           keycloakWithPKCE:
             clientId: oauth2-client-app2
