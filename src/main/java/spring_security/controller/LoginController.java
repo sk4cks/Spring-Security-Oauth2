@@ -50,58 +50,7 @@ public class LoginController {
     @GetMapping("/oauth2Login")
     public String oauth2Login(Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
-                .withClientRegistrationId("keycloak1")
-                .principal(authentication)
-                .attribute(HttpServletRequest.class.getName(), request)
-                .attribute(HttpServletResponse.class.getName(), response)
-                .build();
-
-        OAuth2AuthorizationSuccessHandler successHandler = (authorizedClient, principal, attributes) -> {
-            this.oAuth2AuthorizedClientRepository
-                    .saveAuthorizedClient(authorizedClient, principal,
-                            (HttpServletRequest) attributes.get(HttpServletRequest.class.getName()),
-                            (HttpServletResponse) attributes.get(HttpServletResponse.class.getName()));
-            System.out.println("authorizedClient = " + authorizedClient);
-            System.out.println("principal = " + principal);
-            System.out.println("attributes = " + attributes);
-        };
-
-        this.oAuth2AuthorizedClientManager.setAuthorizationSuccessHandler(successHandler);
-
-        OAuth2AuthorizedClient authorizedClient = this.oAuth2AuthorizedClientManager.authorize(authorizeRequest);
-
-        // 권한부여타입을 변경하지 않고 실행
-//        if(authorizedClient != null && hasTokenExpired(authorizedClient.getAccessToken()) && authorizedClient.getRefreshToken() != null) {
-//            authorizedClient = this.oAuth2AuthorizedClientManager.authorize(authorizeRequest);
-//        }
-
-        // 권한부여타입을 변경하고 실행
-        if(authorizedClient != null && hasTokenExpired(authorizedClient.getAccessToken()) && authorizedClient.getRefreshToken() != null) {
-
-            ClientRegistration clientRegistration = ClientRegistration
-                    .withClientRegistration(authorizedClient.getClientRegistration())
-                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .build();
-
-            OAuth2AuthorizedClient oAuth2AuthorizedClient =
-                    new OAuth2AuthorizedClient(clientRegistration, authorizedClient.getPrincipalName()
-                        ,authorizedClient.getAccessToken(), authorizedClient.getRefreshToken());
-
-            OAuth2AuthorizeRequest authorizeRequest2 = OAuth2AuthorizeRequest
-                    .withAuthorizedClient(oAuth2AuthorizedClient)
-                    .principal(authentication)
-                    .attribute(HttpServletRequest.class.getName(), request)
-                    .attribute(HttpServletResponse.class.getName(), response)
-                    .build();
-
-            authorizedClient = this.oAuth2AuthorizedClientManager.authorize(authorizeRequest2);
-        }
-
-        model.addAttribute("accessToken", authorizedClient.getAccessToken().getTokenValue());
-        model.addAttribute("refreshToken", authorizedClient.getRefreshToken().getTokenValue());
 
         return "home";
     }
