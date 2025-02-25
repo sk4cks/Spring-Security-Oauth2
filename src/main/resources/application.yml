@@ -4,32 +4,26 @@ spring:
     oauth2:
       client:
         registration:
-          keycloak1:
+          keycloak:
             clientId: oauth2-client-app
             clientSecret: 3HaCXNApuA7VuXEWX7zPRnwOWWbaJKsV
             clientName: oauth2-client-app
-            redirectUri: http://localhost:8081/client
-            authorizationGrantType: password
-            clientAuthenticationMethod: client_secret_basic
-            scope: openid,profile,email
-            provider: keycloak
-          keycloakWithPKCE:
-            clientId: oauth2-client-app2
-            clientSecret: HGQaideTscFV1JEJQQwqX9nyheeSnHrI
-            clientName: oauth2-client-app2
             redirectUri: http://localhost:8081/login/oauth2/code/keycloak
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email
-            provider: keycloak
-          keycloak2:
-            clientId: oauth2-client-app3
-            clientName: oauth2-client-app3
-            redirectUri: http://localhost:8081/home
-            authorizationGrantType: implicit
-            clientAuthenticationMethod: none
+          google:
+            clientId: 1022686525883-p709kjfukbj404etm1nn50sqgoqpk09u.apps.googleusercontent.com
+            clientSecret: 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
             scope: openid,profile,email
-            provider: keycloak
+          naver:
+            clientId: RtYvFWqrh1ifyyKjwoZ0
+            clientSecret: ypS1JpD4DQ
+            authorizationGrantType: authorization_code
+            clientName: naver-client-app
+            redirectUri: http://localhost:8081/login/oauth2/code/naver
+            scope: profile,email
+
         provider:
           keycloak:
             authorizationUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/auth
@@ -38,6 +32,15 @@ spring:
             userInfoUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/userinfo
             jwkSetUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/certs
             userNameAttribute: preferred_username
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+
+  mvc:
+    staticPathPattern: /static/**
+
 
 
 server:
