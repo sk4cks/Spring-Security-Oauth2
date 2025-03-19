@@ -6,7 +6,13 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import spring_security.converters.ProviderUserConverter;
+import spring_security.converters.ProviderUserRequest;
 import spring_security.model.*;
+import spring_security.model.social.GoogleUser;
+import spring_security.model.social.KeycloakUser;
+import spring_security.model.social.NaverUser;
+import spring_security.model.users.User;
 import spring_security.repository.UserRepository;
 
 @Service
@@ -18,6 +24,9 @@ public abstract class AbstractOAuth2UserService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProviderUserConverter<ProviderUserRequest, ProviderUser> providerUserConverter;
 
     public void register(ProviderUser providerUser, OAuth2UserRequest userRequest) {
 
@@ -32,18 +41,9 @@ public abstract class AbstractOAuth2UserService {
 
     }
 
-    public ProviderUser providerUser(ClientRegistration clientRegistration, OAuth2User oAuth2User) {
-        String registrationId = clientRegistration.getRegistrationId();
+    public ProviderUser providerUser(ProviderUserRequest providerUserRequest) {
 
-        if(registrationId.equals("keycloak")){
-            return new KeycloakUser(oAuth2User, clientRegistration);
-        }else if(registrationId.equals("google")){
-            return new GoogleUser(oAuth2User, clientRegistration);
-        }else if(registrationId.equals("naver")){
-            return new NaverUser(oAuth2User, clientRegistration);
-        }
-
-        return null;
+        return this.providerUserConverter.converter(providerUserRequest);
     }
 
 

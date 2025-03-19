@@ -1,7 +1,7 @@
 package spring_security.repository;
 
 import org.springframework.stereotype.Repository;
-import spring_security.model.User;
+import spring_security.model.users.User;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import spring_security.converters.ProviderUserRequest;
 import spring_security.model.ProviderUser;
 
 @Service
@@ -19,7 +20,10 @@ public class CustomOidcUserService  extends AbstractOAuth2UserService implements
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
         OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService = new OidcUserService();
         OidcUser oidcUser = oidcUserService.loadUser(userRequest);
-        ProviderUser providerUser = super.providerUser(clientRegistration, oidcUser);
+
+        ProviderUserRequest providerUserRequest = new ProviderUserRequest(clientRegistration, oidcUser);
+
+        ProviderUser providerUser = super.providerUser(providerUserRequest);
         //회원가입
         super.register(providerUser, userRequest);
 

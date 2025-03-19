@@ -3,7 +3,7 @@ package spring_security.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring_security.model.ProviderUser;
-import spring_security.model.User;
+import spring_security.model.users.User;
 import spring_security.repository.UserRepository;
 
 @Service

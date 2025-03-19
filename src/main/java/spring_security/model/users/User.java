@@ -1,4 +1,4 @@
-package spring_security.model;
+package spring_security.model.users;
 
 import lombok.Builder;
 import lombok.Data;

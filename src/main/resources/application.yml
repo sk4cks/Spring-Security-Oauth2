@@ -4,14 +4,13 @@ spring:
     oauth2:
       client:
         registration:
-          keycloak:
-            clientId: oauth2-client-app
-            clientSecret: 3HaCXNApuA7VuXEWX7zPRnwOWWbaJKsV
-            clientName: oauth2-client-app
-            redirectUri: http://localhost:8081/login/oauth2/code/keycloak
+          kakao:
+            clientId: 85a9b02458aaca6279efdee400cc0562
+            clientSecret: 05Hx9eWVsGoaCpiKRN6mHYqo1U4aNG0i
+            clientName: client-app
+            redirectUri: http://localhost:8081/login/oauth2/code/kakao
             authorizationGrantType: authorization_code
-            clientAuthenticationMethod: client_secret_basic
-            scope: openid,profile,email
+            scope: openid,profile
           google:
             clientId: 1022686525883-p709kjfukbj404etm1nn50sqgoqpk09u.apps.googleusercontent.com
             clientSecret: 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
@@ -25,13 +24,13 @@ spring:
             scope: profile,email
 
         provider:
-          keycloak:
-            authorizationUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/auth
-            tokenUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/token
-            issuerUri: http://localhost:8080/realms/oauth2
-            userInfoUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/userinfo
-            jwkSetUri: http://localhost:8080/realms/oauth2/protocol/openid-connect/certs
-            userNameAttribute: preferred_username
+          kakao:
+            issuerUri: https://kauth.kakao.com
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v1/oidc/userinfo
+            jwkSetUri: https://kauth.kakao.com/.well-known/jwks.json
+            userNameAttribute: id
           naver:
             authorizationUri: https://nid.naver.com/oauth2.0/authorize
             tokenUri: https://nid.naver.com/oauth2.0/token
