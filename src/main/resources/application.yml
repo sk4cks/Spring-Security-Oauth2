@@ -7,10 +7,12 @@ spring:
           kakao:
             clientId: 85a9b02458aaca6279efdee400cc0562
             clientSecret: 05Hx9eWVsGoaCpiKRN6mHYqo1U4aNG0i
+            clientAuthenticationMethod: client_secret_post
             clientName: client-app
             redirectUri: http://localhost:8081/login/oauth2/code/kakao
             authorizationGrantType: authorization_code
-            scope: openid,profile
+#            scope: profile_nickname,profile_image
+            scope: openid,profile_nickname,profile_image
           google:
             clientId: 1022686525883-p709kjfukbj404etm1nn50sqgoqpk09u.apps.googleusercontent.com
             clientSecret: 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
@@ -28,7 +30,7 @@ spring:
             issuerUri: https://kauth.kakao.com
             authorizationUri: https://kauth.kakao.com/oauth/authorize
             tokenUri: https://kauth.kakao.com/oauth/token
-            userInfoUri: https://kapi.kakao.com/v1/oidc/userinfo
+            userInfoUri: https://kapi.kakao.com/v2/user/me
             jwkSetUri: https://kauth.kakao.com/.well-known/jwks.json
             userNameAttribute: id
           naver:
@@ -40,7 +42,11 @@ spring:
   mvc:
     staticPathPattern: /static/**
 
-
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 
 server:
   port: 8081

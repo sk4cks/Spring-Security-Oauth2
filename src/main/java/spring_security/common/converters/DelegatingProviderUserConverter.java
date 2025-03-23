@@ -1,4 +1,4 @@
-package spring_security.converters;
+package spring_security.common.converters;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -16,8 +16,11 @@ public class DelegatingProviderUserConverter implements ProviderUserConverter<Pr
 
     public DelegatingProviderUserConverter() {
         List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> providerUserConverters =
-                Arrays.asList(new OAuth2GoogleProviderUserConverter(),
-                              new OAuth2NaverProviderUserConverter());
+                Arrays.asList(new UserDetailsProviderUserConverter(),
+                              new OAuth2GoogleProviderUserConverter(),
+                              new OAuth2NaverProviderUserConverter(),
+                              new OAuth2KakaoProviderUserConverter(),
+                              new OAuth2KakaoOidcProviderUserConverter());
 
         this.converters = Collections.unmodifiableList(new LinkedList<>(providerUserConverters));
     }

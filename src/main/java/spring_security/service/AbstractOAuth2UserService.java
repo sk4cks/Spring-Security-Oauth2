@@ -2,16 +2,11 @@ package spring_security.service;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import spring_security.converters.ProviderUserConverter;
-import spring_security.converters.ProviderUserRequest;
+import spring_security.common.converters.ProviderUserConverter;
+import spring_security.common.converters.ProviderUserRequest;
 import spring_security.model.*;
-import spring_security.model.social.GoogleUser;
-import spring_security.model.social.KeycloakUser;
-import spring_security.model.social.NaverUser;
 import spring_security.model.users.User;
 import spring_security.repository.UserRepository;
 

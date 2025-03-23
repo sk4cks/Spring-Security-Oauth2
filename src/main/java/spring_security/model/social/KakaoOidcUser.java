@@ -5,24 +5,26 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import spring_security.model.Attributes;
 import spring_security.model.OAuth2ProviderUser;
 
-public class GoogleUser extends OAuth2ProviderUser {
+import java.util.Map;
 
-    public GoogleUser(Attributes attributes, OAuth2User oAuth2User, ClientRegistration clientRegistration) {
+public class KakaoOidcUser extends OAuth2ProviderUser {
+
+    public KakaoOidcUser(Attributes attributes, OAuth2User oAuth2User, ClientRegistration clientRegistration) {
         super(attributes.getMainAttributes(), oAuth2User, clientRegistration);
     }
 
     @Override
     public String getId() {
-        return (String) getAttributes().get("sub");
+        return (String) getAttributes().get("id");
     }
 
     @Override
     public String getUsername() {
-        return (String) getAttributes().get("name");
+        return (String) getAttributes().get("nickname");
     }
 
     @Override
     public String getPicture() {
-        return null;
+        return (String) getAttributes().get("profile_image_url");
     }
 }

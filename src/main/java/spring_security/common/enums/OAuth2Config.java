@@ -1,4 +1,4 @@
-package spring_security.enums;
+package spring_security.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

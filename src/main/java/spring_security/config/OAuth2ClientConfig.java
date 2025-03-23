@@ -8,8 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import spring_security.common.authority.CustomAuthorityMapper;
 import spring_security.service.CustomOAuth2UserService;
 import spring_security.service.CustomOidcUserService;
 
@@ -38,19 +39,24 @@ public class OAuth2ClientConfig {
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated());
 
+        http.formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .loginProcessingUrl("/loginProc")
+                .defaultSuccessUrl("/",true)
+                .permitAll());
+
         http.oauth2Login(oauth2 -> oauth2
                 .userInfoEndpoint(userInfoEndpointConfig ->
                         userInfoEndpointConfig
                                 .userService(this.customOAuth2UserService)
-                                .oidcUserService(this.customOidcUserService)));
-        http.logout(logout -> logout.logoutSuccessUrl("/"));
+                                .oidcUserService(this.customOidcUserService))
+                .defaultSuccessUrl("/",true));
+//        http.logout(logout -> logout.logoutSuccessUrl("/"));
+
+        http.exceptionHandling(exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")));
 
         return http.build();
-    }
-
-    @Bean
-    public GrantedAuthoritiesMapper customAuthorityMapper() {
-        return new CustomAuthorityMapper();
     }
 
 }

@@ -22,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import spring_security.common.util.OAuth2Utils;
+import spring_security.model.PrincipalUser;
 
 import java.time.Instant;
 import java.util.Map;
@@ -34,21 +36,20 @@ public class IndexController {
     private ClientRegistrationRepository clientRegistrationRepository;
 
     @GetMapping("/")
-    public String index(Model model, Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2User) {
+    public String index(Model model, Authentication authentication, @AuthenticationPrincipal PrincipalUser principalUser) {
 
-        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
-        if(oAuth2AuthenticationToken != null) {
-            Map<String, Object> attributes = oAuth2User.getAttributes();
-            String name = (String) attributes.get("name");
+        String view = "index";
 
-            if(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId().equals("naver")) {
-                Map<String, Object> response = (Map) attributes.get("response");
-                name = (String) response.get("name");
-            }
-            model.addAttribute("user",name);
+        if(authentication != null) {
+
+            String userName = principalUser.providerUser().getUsername();
+
+            model.addAttribute("user", userName);
+            model.addAttribute("provider", principalUser.providerUser().getProvider());
+            if(!principalUser.providerUser().isCertificated()) view = "selfcert";
         }
 
-        return "index";
+        return view;
     }
 
 

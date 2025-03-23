@@ -1,4 +1,4 @@
-package spring_security.config;
+package spring_security.common.authority;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

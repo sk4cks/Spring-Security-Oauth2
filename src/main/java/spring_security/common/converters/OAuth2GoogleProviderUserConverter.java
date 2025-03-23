@@ -1,9 +1,9 @@
-package spring_security.converters;
+package spring_security.common.converters;
 
-import spring_security.enums.OAuth2Config;
+import spring_security.common.enums.OAuth2Config;
 import spring_security.model.ProviderUser;
 import spring_security.model.social.GoogleUser;
-import spring_security.util.OAuth2Utils;
+import spring_security.common.util.OAuth2Utils;
 
 public class OAuth2GoogleProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
     @Override
