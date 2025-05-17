@@ -1,6 +1,5 @@
 package spring_security.common.util;
 
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import spring_security.common.enums.OAuth2Config;
