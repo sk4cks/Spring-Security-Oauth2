@@ -1,6 +1,9 @@
 server:
   port: 8081
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
   security:
     oauth2:
       client:
@@ -19,4 +22,4 @@ spring:
             client-name: oauth2-client-app
             client-secret: 2TH59jZDrkiLZWCTHY6V8mY4RFrA8Kki
             redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
-            scope: openid,email
+            scope: openid,email,photo
